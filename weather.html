@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+    <title>Weather</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="content">
+        <div style="text-align: center">
+          <h1>Weather App</h1>
+          <label for="input">City </label
+          ><input
+            id="input"
+            class="input"
+            placeholder="Enter Your City Name!"
+          />
+          <br />
+          <br />
+           
+        </div>
+      </div>
+      <div class="main-weath">
+      <div class="main-weather">
+        <p id="date">Today's Date</p>
+        <p id="city">City</p>
+        <p class="temp" id="temp">Temperature</p>
+        <p id="min-max">Min and Max Temperature</p>
+        <p id="weather-type">Sunny</p>
+      </div>
+      </div>
+      <br> <br> 
+    <button class="icon-button" onclick="location.href='index.html'">Home</button> 
+    </div>
+    <script>
+      const api = {
+        key: "1acd42d189d6420592b4ccefc6870772",
+        base: "https://api.openweathermap.org/data/2.5/weather?",
+      };
+
+      const date = moment();
+      document.getElementById("date").innerHTML = date.format(
+        "Mo MMM YYYY dddd, h:mm:ss"
+      );
+
+      const Input = document.getElementById("input");
+
+      Input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          getWeather(Input.value);
+          document.querySelector(".main-weather").style.display = "block";
+        }
+      });
+      const enterButton = document.getElementById("CityEnter");
+      enterButton.addEventListener("click", () => {
+        getWeather(Input.value);
+        document.querySelector(".main-weather").style.display = "block";
+      });
+
+      function getWeather(city) {
+        fetch(`${api.base}q=${city}&appid=${api.key}&units=metric`) // metric bc im not american lol
+          .then((details) => {
+            return details.json();
+          })
+          .then(showWeather);
+      }
+
+      function showWeather(details) {
+        let city = document.getElementById("city");
+        city.innerHTML = `${details.name}, ${details.sys.country}`;
+
+        let temperature = document.getElementById("temp");
+        temperature.innerHTML = `${Math.round(details.main.temp)}°C`;
+
+        let minMax = document.getElementById("min-max");
+        minMax.innerHTML = `${Math.round(
+          details.main.temp_min
+        )}°C (Min) and ${Math.round(details.main.temp_max)}°C (Max) `;
+
+        let weatherType = document.getElementById("weather-type");
+        weatherType.innerHTML = `${details.weather[0].main}`;
+      }
+    </script>
+  </body>
+</html>

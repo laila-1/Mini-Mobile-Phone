@@ -31,9 +31,9 @@ color colors[] = {
     color(255, 0, 0),
     color(255, 165, 0),
     color(255, 255, 0),
-    color(0, 150, 0),
-    color(0, 0, 255),
-    color(255, 0, 200),
+    color(50,205,50),
+    color(65,105,225),
+    color(255,192,203),
     color(100),
     color(255)
 };
